@@ -14,9 +14,10 @@
             max-width: 500px;
             margin: auto;
             padding: 20px;
-            border: 1px solid #786666;
+            border: 1px solid #ccc;
             border-radius: 8px;
             background-color: #578E7E;
+
         }
         h1 {
             text-align: center;
@@ -73,10 +74,11 @@
 
         <div class="result" id="result"></div>
         <div style="display: flex; justify-content: center;" ><p>Made by Nilesh with &#x2665;&#xfe0f;</p></div>
+
     </div>
 
     <script >
-    // Shift sequence
+// Shift sequence
 const shiftSequence = ['night', 'evening', 'morning'];
 
 // Function to format date as DD/MM/YYYY
@@ -100,11 +102,8 @@ function predictShift() {
     const selectedDate = new Date(document.getElementById('dateInput').value);
     const today = new Date();
 
-    // Get the current day of the week (0: Sunday, 1: Monday, etc.)
-    const currentDay = today.getDay();
-    const selectedDay = selectedDate.getDay();
-
     // Check if the selected date is the weekly off day
+    const selectedDay = selectedDate.getDay();
     if (selectedDay === weekOff) {
         document.getElementById('result').innerText = `The selected date is a weekly off day.`;
         return;
@@ -113,19 +112,28 @@ function predictShift() {
     // Calculate the number of days between today and the selected date
     const daysDiff = Math.floor((selectedDate - today) / (1000 * 3600 * 24));
 
-    // Calculate the number of full 7-day cycles
-    const fullCycles = Math.floor(daysDiff / 7);
-    
-    // Calculate the number of days left after full cycles (should be between 0 and 6)
-    const daysLeft = daysDiff % 7;
-
-    // Determine the shift based on the current shift and cycles
+    // Initialize variables
     let shiftIndex = shiftSequence.indexOf(currentShift);
+    let currentDayOfWeek = today.getDay();
 
-    // After 6 days, the shift changes. So calculate the shift change.
-    const shiftsAhead = Math.floor((daysLeft) / 6); // Shift changes after 6 days
-    shiftIndex = (shiftIndex + fullCycles + shiftsAhead) % shiftSequence.length;
-    
+    // Adjust the shift based on how many weekly offs have occurred between today and the selected date
+    let shiftsChanged = 0;
+    let currentDate = new Date(today);
+
+    // Iterate through the days, checking each for a weekly off, and calculating the number of shifts
+    for (let i = 0; i < Math.abs(daysDiff); i++) {
+        currentDate.setDate(currentDate.getDate() + (daysDiff > 0 ? 1 : -1));
+
+        // Check if the current day is the weekly off
+        if (currentDate.getDay() === weekOff) {
+            shiftsChanged++;
+        }
+    }
+
+    // Calculate the number of shifts that should have occurred since today
+    shiftIndex = (shiftIndex + shiftsChanged) % shiftSequence.length;
+
+    // Determine the shift for the selected date
     let shift = shiftSequence[shiftIndex];
 
     // Output the predicted shift with the formatted date and day of the week
@@ -133,6 +141,7 @@ function predictShift() {
     const dayName = getDayName(selectedDate);
     document.getElementById('result').innerText = `Predicted shift for ${formattedDate} (${dayName}) is: ${shift.charAt(0).toUpperCase() + shift.slice(1)}`;
 }
+
     </script>
 </body>
 </html>
