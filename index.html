@@ -197,7 +197,10 @@
 
       // Set the min date to the current date dynamically when the page loads
       document.getElementById("dateInput").min = new Date().toISOString().split("T")[0];
-
+        // Set today's date as the default value
+       document.getElementById("dateInput").value = new Date()
+        .toISOString()
+        .split("T")[0];
       // Function to get the day name from a date
       function getDayName(date) {
         const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
