@@ -1,159 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/fevicom.png?" />
     <title>Shift Predictor</title>
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: black;
-        }
-        .container {
-            max-width: 500px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #578E7E;
-        }
-        h1 {
-            text-align: center;
-        }
-        input, select {
-            width: 100%;
-            padding: 8px;
-            margin: 8px 0;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .result {
-            margin-top: 20px;
-            font-size: 18px;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: black;
+      }
+      .container {
+        max-width: 500px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #578e7e;
+      }
+      h1 {
+        text-align: center;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 8px;
+        margin: 8px 0;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      .rcontainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .result {
+        margin-top: 20px;
+        font-size: 18px;
+      }
+      .shiftResult {
+        font-size: 25px;
+        font-weight: 700;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="container">
-        <h1>Shift Predictor</h1>
-        
-        <label for="shiftSequence">Shift Sequence:</label>
-        <select id="shiftSequence">
-            <option value="1">1. Night, Evening, Morning</option>
-            <option value="2">2. Night, Morning, Evening</option>
-        </select>
+      <h1>Shift Predictor</h1>
 
-        <label for="currentShift">Current Shift:</label>
-        <select id="currentShift">
-            <option value="night">Night</option>
-            <option value="evening">Evening</option>
-            <option value="morning">Morning</option>
-        </select>
+      <label for="shiftSequence">Shift Sequence:</label>
+      <select id="shiftSequence">
+        <option value="1">1. Night, Evening, Morning</option>
+        <option value="2">2. Night, Morning, Evening</option>
+      </select>
 
-        <label for="weekOff">Weekly Off Day:</label>
-        <select id="weekOff">
-            <option value="0">Sunday</option>
-            <option value="1">Monday</option>
-            <option value="2">Tuesday</option>
-            <option value="3">Wednesday</option>
-            <option value="4">Thursday</option>
-            <option value="5">Friday</option>
-            <option value="6">Saturday</option>
-        </select>
+      <label for="currentShift">Current Shift:</label>
+      <select id="currentShift">
+        <option value="night">Night</option>
+        <option value="evening">Evening</option>
+        <option value="morning">Morning</option>
+      </select>
 
-        <label for="dateInput" style="cursor: pointer;">Date for Shift Prediction:</label>
-        <input type="date" id="dateInput" min="">
+      <label for="weekOff">Weekly Off Day:</label>
+      <select id="weekOff">
+        <option value="0">Sunday</option>
+        <option value="1">Monday</option>
+        <option value="2">Tuesday</option>
+        <option value="3">Wednesday</option>
+        <option value="4">Thursday</option>
+        <option value="5">Friday</option>
+        <option value="6">Saturday</option>
+      </select>
 
-        <button onclick="predictShift()">Predict Shift</button>
+      <label for="dateInput" style="cursor: pointer"
+        >Date for Shift Prediction:</label
+      >
+      <input type="date" id="dateInput" min="" />
 
+      <button onclick="predictShift()">Predict Shift</button>
+      <div class="rcontainer">
         <div class="result" id="result"></div>
-        <div style="display: flex; justify-content: center;" ><p>Made by Nilesh with &#x2665;&#xfe0f;</p></div>
-
+        <div class="shiftResult" id="shiftResult"></div>
+      </div>
+      <div style="display: flex; justify-content: center">
+        <p>Made by Nilesh with &#x2665;&#xfe0f;</p>
+      </div>
     </div>
 
     <script>
-// Function to format date as DD/MM/YYYY
-function formatDate(date) {
-    const day = String(date.getDate()).padStart(2, '0'); // Ensure two digits for day
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Ensure two digits for month (months are 0-indexed)
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-}
+      // Function to format date as DD/MM/YYYY
+      function formatDate(date) {
+        const day = String(date.getDate()).padStart(2, "0"); // Ensure two digits for day
+        const month = String(date.getMonth() + 1).padStart(2, "0"); // Ensure two digits for month (months are 0-indexed)
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+      }
 
-// Set the min date to the current date dynamically when the page loads
-document.getElementById('dateInput').min = new Date().toISOString().split('T')[0];
+      // Set the min date to the current date dynamically when the page loads
+      document.getElementById("dateInput").min = new Date()
+        .toISOString()
+        .split("T")[0];
 
+      // Function to get the day name from a date
+      function getDayName(date) {
+        const daysOfWeek = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+        return daysOfWeek[date.getDay()];
+      }
 
-// Function to get the day name from a date
-function getDayName(date) {
-    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    return daysOfWeek[date.getDay()];
-}
+      // Function to predict shift
+      function predictShift() {
+        const shiftSequenceOption =
+          document.getElementById("shiftSequence").value;
+        const currentShift = document.getElementById("currentShift").value;
+        const weekOff = parseInt(document.getElementById("weekOff").value); // Get the index of weekly off (0 for Sunday, 1 for Monday, etc.)
+        const selectedDate = new Date(
+          document.getElementById("dateInput").value
+        );
+        const today = new Date();
 
-// Function to predict shift
-function predictShift() {
-    const shiftSequenceOption = document.getElementById('shiftSequence').value;
-    const currentShift = document.getElementById('currentShift').value;
-    const weekOff = parseInt(document.getElementById('weekOff').value);  // Get the index of weekly off (0 for Sunday, 1 for Monday, etc.)
-    const selectedDate = new Date(document.getElementById('dateInput').value);
-    const today = new Date();
+        // Define the shift sequences based on user selection
+        const shiftSequence =
+          shiftSequenceOption == "1"
+            ? ["night", "evening", "morning"]
+            : ["night", "morning", "evening"];
 
-    // Define the shift sequences based on user selection
-    const shiftSequence = shiftSequenceOption == '1' 
-        ? ['night', 'evening', 'morning'] 
-        : ['night', 'morning', 'evening'];
-
-    // Check if the selected date is the weekly off day
-    const selectedDay = selectedDate.getDay();
-    if (selectedDay === weekOff) {
-        document.getElementById('result').innerText = `The selected date is a weekly off day.`;
-        return;
-    }
-
-    // Calculate the number of days between today and the selected date
-    const daysDiff = Math.floor((selectedDate - today) / (1000 * 3600 * 24));
-
-    // Initialize variables
-    let shiftIndex = shiftSequence.indexOf(currentShift);
-    let currentDayOfWeek = today.getDay();
-
-    // Adjust the shift based on how many weekly offs have occurred between today and the selected date
-    let shiftsChanged = 0;
-    let currentDate = new Date(today);
-
-    // Iterate through the days, checking each for a weekly off, and calculating the number of shifts
-    for (let i = 0; i < Math.abs(daysDiff); i++) {
-        currentDate.setDate(currentDate.getDate() + (daysDiff > 0 ? 1 : -1));
-
-        // Check if the current day is the weekly off
-        if (currentDate.getDay() === weekOff) {
-            shiftsChanged++;
+        // Check if the selected date is the weekly off day
+        const selectedDay = selectedDate.getDay();
+        if (selectedDay === weekOff) {
+          document.getElementById(
+            "result"
+          ).innerText = `The selected date is a weekly off day.`;
+          return;
         }
-    }
 
-    // Calculate the number of shifts that should have occurred since today
-    shiftIndex = (shiftIndex + shiftsChanged) % shiftSequence.length;
+        // Calculate the number of days between today and the selected date
+        const daysDiff = Math.floor(
+          (selectedDate - today) / (1000 * 3600 * 24)
+        );
 
-    // Determine the shift for the selected date
-    let shift = shiftSequence[shiftIndex];
+        // Initialize variables
+        let shiftIndex = shiftSequence.indexOf(currentShift);
+        let currentDayOfWeek = today.getDay();
 
-    // Output the predicted shift with the formatted date and day of the week
-    const formattedDate = formatDate(selectedDate);
-    const dayName = getDayName(selectedDate);
-    document.getElementById('result').innerText = `Predicted shift for ${formattedDate} (${dayName}) is: ${shift.charAt(0).toUpperCase() + shift.slice(1)}`;
-}
+        // Adjust the shift based on how many weekly offs have occurred between today and the selected date
+        let shiftsChanged = 0;
+        let currentDate = new Date(today);
 
+        // Iterate through the days, checking each for a weekly off, and calculating the number of shifts
+        for (let i = 0; i < Math.abs(daysDiff); i++) {
+          currentDate.setDate(currentDate.getDate() + (daysDiff > 0 ? 1 : -1));
+
+          // Check if the current day is the weekly off
+          if (currentDate.getDay() === weekOff) {
+            shiftsChanged++;
+          }
+        }
+
+        // Calculate the number of shifts that should have occurred since today
+        shiftIndex = (shiftIndex + shiftsChanged) % shiftSequence.length;
+
+        // Determine the shift for the selected date
+        let shift = shiftSequence[shiftIndex];
+
+        // Output the predicted shift with the formatted date and day of the week
+        const formattedDate = formatDate(selectedDate);
+        const dayName = getDayName(selectedDate);
+        document.getElementById(
+          "result"
+        ).innerText = `Predicted shift for ${formattedDate} (${dayName}) is`;
+        document.getElementById("shiftResult").innerText = `${
+          shift.charAt(0).toUpperCase() + shift.slice(1)
+        }`;
+      }
     </script>
-</body>
+  </body>
 </html>
