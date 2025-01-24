@@ -11,7 +11,9 @@
         font-family: Arial, sans-serif;
         margin: 20px;
         background-color: black;
+        transition: margin-left 0.3s;
       }
+
       .container {
         max-width: 500px;
         margin: auto;
@@ -20,15 +22,18 @@
         border-radius: 8px;
         background-color: #578e7e;
       }
+
       h1 {
         text-align: center;
       }
+
       input,
       select {
         width: 100%;
         padding: 8px;
         margin: 8px 0;
       }
+
       button {
         width: 100%;
         padding: 10px;
@@ -37,9 +42,11 @@
         border: none;
         cursor: pointer;
       }
+
       button:hover {
         background-color: #45a049;
       }
+
       .rcontainer {
         display: flex;
         flex-direction: column;
@@ -47,17 +54,82 @@
         align-items: center;
         text-align: center;
       }
+
       .result {
         margin-top: 20px;
         font-size: 18px;
       }
+
       .shiftResult {
         font-size: 25px;
         font-weight: 700;
       }
+
+      /* Sidebar styles */
+      .sidebar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #333;
+        overflow-x: hidden;
+        transition: 0.3s;
+        padding-top: 60px;
+        z-index: 1000;
+      }
+
+      .sidebar a {
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 15px;
+        color: white;
+        display: block;
+        transition: 0.3s;
+      }
+
+      .sidebar a:hover {
+        background-color: #575757;
+      }
+
+      .sidebar .close-btn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        color: white;
+        cursor: pointer;
+      }
+
+      /* Menu icon styles */
+      .menu-icon {
+        font-size: 30px;
+        color: rgb(120, 111, 111);
+        cursor: pointer;
+        position: fixed;
+        left: 20px;
+        top: 20px;
+        z-index: 1100; /* Ensure the menu icon is above other content */
+      }
+
+      /* Hide the menu icon when sidebar is open */
+      .menu-icon.hide {
+        display: none;
+      }
     </style>
   </head>
   <body>
+    <!-- Menu icon (3 horizontal lines) -->
+    <span id="menuIcon" class="menu-icon" onclick="toggleSidebar()">&#9776;</span>
+
+    <!-- Sidebar -->
+    <div id="mySidebar" class="sidebar">
+      <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+      <a href="./about.html">About</a>
+      <a href="./suggestion.html">Suggestions</a>
+    </div>
+
+    <!-- Main content -->
     <div class="container">
       <h1>Shift Predictor</h1>
 
@@ -85,9 +157,7 @@
         <option value="6">Saturday</option>
       </select>
 
-      <label for="dateInput" style="cursor: pointer"
-        >Date for Shift Prediction:</label
-      >
+      <label for="dateInput" style="cursor: pointer">Date for Shift Prediction:</label>
       <input type="date" id="dateInput" min="" />
 
       <button onclick="predictShift()">Predict Shift</button>
@@ -101,6 +171,22 @@
     </div>
 
     <script>
+      // Toggle sidebar visibility
+      function toggleSidebar() {
+        var sidebar = document.getElementById("mySidebar");
+        var menuIcon = document.getElementById("menuIcon");
+
+        if (sidebar.style.width === "250px") {
+          sidebar.style.width = "0";
+          document.body.style.marginLeft = "0";
+          menuIcon.classList.remove("hide"); // Show the menu icon when sidebar closes
+        } else {
+          sidebar.style.width = "250px";
+          document.body.style.marginLeft = "250px";
+          menuIcon.classList.add("hide"); // Hide the menu icon when sidebar opens
+        }
+      }
+
       // Function to format date as DD/MM/YYYY
       function formatDate(date) {
         const day = String(date.getDate()).padStart(2, "0"); // Ensure two digits for day
@@ -110,88 +196,48 @@
       }
 
       // Set the min date to the current date dynamically when the page loads
-      document.getElementById("dateInput").min = new Date()
-        .toISOString()
-        .split("T")[0];
+      document.getElementById("dateInput").min = new Date().toISOString().split("T")[0];
 
       // Function to get the day name from a date
       function getDayName(date) {
-        const daysOfWeek = [
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ];
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         return daysOfWeek[date.getDay()];
       }
 
       // Function to predict shift
       function predictShift() {
-        const shiftSequenceOption =
-          document.getElementById("shiftSequence").value;
+        const shiftSequenceOption = document.getElementById("shiftSequence").value;
         const currentShift = document.getElementById("currentShift").value;
-        const weekOff = parseInt(document.getElementById("weekOff").value); // Get the index of weekly off (0 for Sunday, 1 for Monday, etc.)
-        const selectedDate = new Date(
-          document.getElementById("dateInput").value
-        );
+        const weekOff = parseInt(document.getElementById("weekOff").value);
+        const selectedDate = new Date(document.getElementById("dateInput").value);
         const today = new Date();
 
-        // Define the shift sequences based on user selection
-        const shiftSequence =
-          shiftSequenceOption == "1"
-            ? ["night", "evening", "morning"]
-            : ["night", "morning", "evening"];
+        const shiftSequence = shiftSequenceOption == "1" ? ["night", "evening", "morning"] : ["night", "morning", "evening"];
 
-        // Check if the selected date is the weekly off day
         const selectedDay = selectedDate.getDay();
         if (selectedDay === weekOff) {
-          document.getElementById(
-            "result"
-          ).innerText = `The selected date is a weekly off day.`;
+          document.getElementById("result").innerText = `The selected date is a weekly off day.`;
           return;
         }
 
-        // Calculate the number of days between today and the selected date
-        const daysDiff = Math.floor(
-          (selectedDate - today) / (1000 * 3600 * 24)
-        );
-
-        // Initialize variables
+        const daysDiff = Math.floor((selectedDate - today) / (1000 * 3600 * 24));
         let shiftIndex = shiftSequence.indexOf(currentShift);
-        let currentDayOfWeek = today.getDay();
-
-        // Adjust the shift based on how many weekly offs have occurred between today and the selected date
-        let shiftsChanged = 0;
         let currentDate = new Date(today);
+        let shiftsChanged = 0;
 
-        // Iterate through the days, checking each for a weekly off, and calculating the number of shifts
         for (let i = 0; i < Math.abs(daysDiff); i++) {
           currentDate.setDate(currentDate.getDate() + (daysDiff > 0 ? 1 : -1));
-
-          // Check if the current day is the weekly off
           if (currentDate.getDay() === weekOff) {
             shiftsChanged++;
           }
         }
 
-        // Calculate the number of shifts that should have occurred since today
         shiftIndex = (shiftIndex + shiftsChanged) % shiftSequence.length;
-
-        // Determine the shift for the selected date
         let shift = shiftSequence[shiftIndex];
-
-        // Output the predicted shift with the formatted date and day of the week
         const formattedDate = formatDate(selectedDate);
         const dayName = getDayName(selectedDate);
-        document.getElementById(
-          "result"
-        ).innerText = `Predicted shift for ${formattedDate} (${dayName}) is`;
-        document.getElementById("shiftResult").innerText = `${
-          shift.charAt(0).toUpperCase() + shift.slice(1)
-        }`;
+        document.getElementById("result").innerText = `Predicted shift for ${formattedDate} (${dayName}) is`;
+        document.getElementById("shiftResult").innerText = `${shift.charAt(0).toUpperCase() + shift.slice(1)}`;
       }
     </script>
   </body>
