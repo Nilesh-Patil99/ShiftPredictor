@@ -2,6 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes"> <!-- For iOS -->
+<meta name="mobile-web-app-capable" content="yes"> <!-- For Android -->
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no" />
     <link rel="icon" type="image/x-icon" href="./fevicom.png?" />
     <title>Shift Predictor</title>
@@ -175,21 +179,7 @@
 
     <script>
 // Function to make the app go full screen
-const elmt = document.getElementsByTagName("html")
-function openFullscreen() {
-    if (elmt.requestFullscreen) {
-        elmt.requestFullscreen();
-    } else if (elmt.mozRequestFullScreen) { // Firefox
-        elmt.mozRequestFullScreen();
-    } else if (elmt.webkitRequestFullscreen) { // Chrome, Safari and Opera
-        elmt.webkitRequestFullscreen();
-    } else if (elmt.msRequestFullscreen) { // IE/Edge
-        elmt.msRequestFullscreen();
-    }
-}
 
-// Open full screen when the page is loaded
-window.onload = openFullscreen;
 
       // Toggle sidebar visibility
       function toggleSidebar() {
