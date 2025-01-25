@@ -171,6 +171,17 @@
     </div>
 
     <script>
+//request for full screen 
+document.documentElement.requestFullscreen = document.documentElement.requestFullscreen || 
+                                                 document.documentElement.mozRequestFullScreen || 
+                                                 document.documentElement.webkitRequestFullscreen || 
+                                                 document.documentElement.msRequestFullscreen;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      }
+    });
       // Toggle sidebar visibility
       function toggleSidebar() {
         var sidebar = document.getElementById("mySidebar");
