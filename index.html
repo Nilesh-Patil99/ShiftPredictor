@@ -27,7 +27,7 @@
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 8px;
-        background-color: #578e7e;
+        background: linear-gradient(135deg, #4caf50, #008080);
       }
 
       h1 {
@@ -230,6 +230,7 @@
         const selectedDay = selectedDate.getDay();
         if (selectedDay === weekOff) {
           document.getElementById("result").innerText = `The selected date is a weekly off day.`;
+          document.getElementById("shiftResult").innerText = `Week Off Enjoy`;
           return;
         }
 
