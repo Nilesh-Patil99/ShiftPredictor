@@ -2,8 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-    
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+
     <title>About - Shift Predictor</title>
     <style>
       /* General Styles */
@@ -44,8 +47,6 @@
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         transition: all 0.3s ease;
       }
-
-
 
       h2 {
         font-size: 2rem;
@@ -96,20 +97,28 @@
 
       footer p {
         font-size: 1rem;
-        
       }
       a {
-      color: #4caf50;
-      text-decoration: none;
+        color: #4caf50;
+        text-decoration: none;
       }
-    
+
       a:hover {
-      text-decoration: underline;
+        text-decoration: underline;
       }
+      .email-link {
+    color: #6ac44c; /* Yellow color for the email to stand out */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Make email more prominent */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adds a shadow for better visibility */
+  }
+
+  .email-link:hover {
+    color: #ad4939; /* Slightly change color on hover */
+  }
     </style>
   </head>
   <body>
-
     <!-- Header -->
     <header>
       <h1>About Shift Predictor</h1>
@@ -117,17 +126,20 @@
 
     <!-- Main Content -->
     <div class="container">
-
       <h2>What is Shift Predictor?</h2>
       <p>
-        Shift Predictor is a tool designed to help individuals working in rotating shifts, like healthcare professionals, factory workers, or anyone who follows regular shift patterns, easily predict their shift for future.
+        Shift Predictor is a tool designed to help individuals working in
+        rotating shifts, like healthcare professionals, factory workers, or
+        anyone who follows regular shift patterns, easily predict their shift
+        for future.
       </p>
 
       <h2>How does it work?</h2>
       <p>
-        By inputting the shift sequence, the current shift, and the weekly off day, Shift Predictor calculates the user's next shift based on a selected date. It helps plan schedules in advance and avoids confusion.
+        By inputting the shift sequence, the current shift, and the weekly off
+        day, Shift Predictor calculates the user's next shift based on a
+        selected date. It helps plan schedules in advance and avoids confusion.
       </p>
-
       <h2>Features</h2>
       <ul>
         <li>Supports multiple shift sequences</li>
@@ -135,15 +147,51 @@
         <li>Handles weekly off days for accurate predictions</li>
         <li>Easy-to-use interface with a simple setup</li>
       </ul>
+      <h2>App Usage Guide</h2>
+      <p>
+        <strong>Shift Sequence:</strong> 
+        <ul><li>Choose the shift sequence that best
+            matches your work pattern—either "Night, Morning, Evening" or "Night,
+            Evening, Morning."</li></ul>
+      </p>
 
+      <p>
+        <strong>Current Shift:</strong>
+        <ul><li>Select your current shift, which
+            represents the shift you're working today.</li></ul>
+      </p>
 
-    <a href="index.html" class="go-back-btn">Go Back to Home</a>
+      <p>
+        <strong>Weekly Off Day:</strong>
+        <ul><li>Specify the day of the week you have
+        off regularly.</li></ul> 
+      </p>
+
+      <p>
+        <strong>Date for Shift Prediction:</strong> 
+        <ul><li>Enter the date for which
+        you'd like to predict your shift.</li>
+        </ul>
+      </p>
+
+      <p>
+        <strong>Remark:</strong>
+        <ul><li>This app currently supports shift prediction
+        only for users whose shifts rotate weekly based on their weekly off day.
+        For others, we are working on an update. If your shift pattern doesn't
+        fit this model, please contact us at
+        <a href="mailto:niravira1308@gmail.com" class="email-link">niravira1308@gmail.com</a> with
+        your shift details, and our team will update it accordingly.</li></ul> 
+      </p>
+
+     
+
+      <a href="index.html" class="go-back-btn">Go Back to Home</a>
     </div>
 
     <!-- Footer -->
     <footer>
       <p>Made with &#x2665;&#xfe0f; by us</p>
     </footer>
-
   </body>
 </html>
