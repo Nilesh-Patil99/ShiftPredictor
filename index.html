@@ -202,10 +202,14 @@
 
         if (sidebar.style.width === "250px") {
           sidebar.style.width = "0";
+          document.querySelector(".container").removeAttribute('onclick' );
+
           // document.body.style.marginLeft = "0";
           menuIcon.classList.remove("hide"); // Show the menu icon when sidebar closes
         } else {
           sidebar.style.width = "250px";
+          document.querySelector(".container").setAttribute('onclick', 'toggleSidebar()');
+
           // document.body.style.marginLeft = "250px";
           menuIcon.classList.add("hide"); // Hide the menu icon when sidebar opens
         }
