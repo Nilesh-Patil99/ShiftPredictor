@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Load Website in Iframe</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #myDiv {
+      width: 100%;
+      height: 100vh; /* Full height of the viewport */
+      position: relative;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      transform: scale(1); /* Zoom out content inside the iframe */
+      transform-origin: 0 0; /* Ensure scaling starts from the top-left corner */
+    }
+
+    .go-back-btn {
+      display: inline-block;
+      background-color: white;
+      opacity: 0.2;
+      color: black;
+      padding: 12px 24px;
+      font-size: 1.125rem;
+      border-radius: 8px;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+    }
+
+    .go-back-btn:hover {
+      background-color: #2c6e2f;
+    }
+    iframe{
+      border: gray;
+      height:100vh;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="myDiv">
+    <iframe src="https://nilesh-patil99.github.io/Dino-game/" ></iframe>
+    <a href="index.html" class="go-back-btn">Go Back to Home</a>
+  </div>
+
+</body>
+</html>
